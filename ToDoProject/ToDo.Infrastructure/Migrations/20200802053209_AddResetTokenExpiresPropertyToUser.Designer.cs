@@ -10,8 +10,8 @@ using ToDo.Infrastructure.Data;
 namespace ToDo.Infrastructure.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20200728101251_InitDb")]
-    partial class InitDb
+    [Migration("20200802053209_AddResetTokenExpiresPropertyToUser")]
+    partial class AddResetTokenExpiresPropertyToUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,9 +59,15 @@ namespace ToDo.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -77,17 +83,26 @@ namespace ToDo.Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ResetToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ResetTokenExpires")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<int>("age")
-                        .HasColumnType("int");
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 

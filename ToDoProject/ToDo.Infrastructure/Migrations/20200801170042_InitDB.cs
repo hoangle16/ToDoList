@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ToDo.Infrastructure.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,10 +17,14 @@ namespace ToDo.Infrastructure.Migrations
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    age = table.Column<int>(nullable: false),
-                    Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: false),
-                    Role = table.Column<string>(nullable: false)
+                    Phone = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: false),
+                    VerificationToken = table.Column<string>(nullable: true),
+                    IsVerified = table.Column<bool>(nullable: false),
+                    ResetToken = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
