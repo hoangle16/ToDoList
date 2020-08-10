@@ -21,6 +21,6 @@ namespace ToDo.Domain.Entities
         public DateTime? ResetTokenExpires { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
-        public ICollection<ToDoItem> TodoItems { get; set; }
+        public virtual ICollection<ToDoItem> TodoItems { get; set; }
     }
 }

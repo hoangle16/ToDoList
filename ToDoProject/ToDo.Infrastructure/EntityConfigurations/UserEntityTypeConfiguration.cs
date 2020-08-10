@@ -27,7 +27,8 @@ namespace ToDo.Infrastructure.EntityConfigurations
                 .IsRequired();
 
             builder.HasMany(t => t.TodoItems)
-                .WithOne(u => u.User);
+                .WithOne(u => u.User)
+                .HasForeignKey(e => e.UserId);
         }
     }
 }

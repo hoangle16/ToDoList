@@ -7,12 +7,12 @@ namespace ToDo.Domain.Interfaces
 {
     public interface IRepository<T>
     {
-        Task<T> GetById(int id);
-        Task<IEnumerable<T>> GetAll();
+        T GetById(int id);
+        IEnumerable<T> GetAll();
 
-        Task<T> Add(T entity);
+        T Add(T entity);
         void Update(T entity);
-        void Remove(T entity);
+        void Remove(int id);
         
     }
 }

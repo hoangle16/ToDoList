@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ToDo.Domain.Entities
+namespace ToDo.Domain.Models.ToDoItem
 {
-    public class ToDoItem
+    public class ItemModel
     {
         public int ToDoItemId { get; set; }
         public string TaskName { get; set; }
@@ -14,6 +14,5 @@ namespace ToDo.Domain.Entities
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public int UserId { get; set; }
-        public virtual User User { get; set; }
     }
 }

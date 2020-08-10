@@ -84,6 +84,7 @@ namespace ToDoProject
             //configure DI for application services
             services.AddScoped<IUserRepository, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IToDoItemRepository, ToDoItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
