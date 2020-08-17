@@ -29,6 +29,11 @@ namespace ToDo.API.Controllers
             _ToDoItemService = toDoItemRepository;
         }
 
+        /// <summary>
+        /// Add new To do item
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Add([FromBody] AddItemModel model)
         {
@@ -46,6 +51,11 @@ namespace ToDo.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Mark complete a item by itemId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost("complete/{id}")]
         public IActionResult Complete(int id)
         {
@@ -59,6 +69,11 @@ namespace ToDo.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Get a ToDo Items list
+        /// </summary>
+        /// <returns>todo item list</returns>
         [Authorize(Roles = Role.Admin)]
         [HttpGet]
         public IActionResult GetAll()
@@ -67,6 +82,11 @@ namespace ToDo.API.Controllers
         }
 
         //get item by id
+        /// <summary>
+        /// Get a item by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>a item</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -82,6 +102,11 @@ namespace ToDo.API.Controllers
         }
 
         //get all items of user by userId
+        /// <summary>
+        /// get user's item list by userId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("user/{id}")]
         public IActionResult GetAllItemsOfUser(int id)
         {
@@ -96,6 +121,11 @@ namespace ToDo.API.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// Delete a item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult DeleteItem(int id)
         {
@@ -108,6 +138,12 @@ namespace ToDo.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// update a item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult UpdateItem(int id, [FromBody] UpdateItemModel model)
         {

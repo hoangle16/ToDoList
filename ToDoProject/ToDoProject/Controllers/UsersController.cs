@@ -39,7 +39,21 @@ namespace ToDo.API.Controllers
             _mapper = mapper;
             _appSettings = appSettings.Value;
         }
-
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     POST /Users/authenticate
+        ///     {
+        ///         "UserName" : "user1",
+        ///         "Password" "user123"
+        ///     }
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>User's info and token</returns>
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
@@ -80,6 +94,11 @@ namespace ToDo.API.Controllers
             });
         }
 
+        /// <summary>
+        /// Register new user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Notification string</returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody]RegisterModel model)
@@ -96,6 +115,12 @@ namespace ToDo.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        
+        /// <summary>
+        /// verify email
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>notification string</returns>
         [AllowAnonymous]
         [HttpPost("verify-email")]
         public IActionResult VerifyEmail(VerifyEmailRequestModel model)
@@ -112,6 +137,11 @@ namespace ToDo.API.Controllers
             return Ok(new { message = "Please check your email for password reset instructions" });
         }
 
+        /// <summary>
+        /// reset password when using forgot-password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Notification string</returns>
         [AllowAnonymous]
         [HttpPost("reset-password")]
         public IActionResult ResetPassword(ResetPasswordRequestModel model)
@@ -121,7 +151,11 @@ namespace ToDo.API.Controllers
 
         }
 
-        [Authorize(Roles =Role.Admin)]
+        /// <summary>
+        /// Get a users list
+        /// </summary>
+        /// <returns>users list</returns>
+        [Authorize(Roles = Role.Admin)]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -130,6 +164,11 @@ namespace ToDo.API.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// Get a user by userId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>a user info</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -146,6 +185,12 @@ namespace ToDo.API.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// update info of user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]UpdateModel model)
         {
@@ -167,6 +212,11 @@ namespace ToDo.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles =Role.Admin)]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

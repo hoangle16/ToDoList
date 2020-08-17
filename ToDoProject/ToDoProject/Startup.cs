@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ToDo.API.Helpers;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
@@ -42,6 +45,26 @@ namespace ToDoProject
             services.AddControllers();
             //
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ToDo API",
+                    Description = "ASP.NET CORE WEB API 3.0",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Le Hoang",
+                        Email = "hoang9x000@gmail.com"
+                    }
+
+                });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
 
             //configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -96,7 +119,12 @@ namespace ToDoProject
             }
 
             app.UseHttpsRedirection();
-
+            //swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDo API V1");
+            });
             app.UseRouting();
 
             app.UseCors(x => x
