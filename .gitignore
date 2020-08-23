@@ -523,3 +523,5 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,visualstudio,angular,aspnetcore
+ToDoProject/ToDoProject/wwwroot/avatars/2_avatar.jpg
+ToDoProject/ToDoProject/wwwroot/avatars/0_avatar.jpg
