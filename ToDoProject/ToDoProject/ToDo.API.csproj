@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>G:\docNet\ToDoProject\ToDoList\ToDoProject\ToDoProject\ToDo.API.xml</DocumentationFile>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDo.Infrastructure\ToDo.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\avatars\" />
   </ItemGroup>
 
 </Project>

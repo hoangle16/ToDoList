@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -21,6 +22,7 @@ namespace ToDo.Domain.Models
         [EmailAddress]
         public string Email { get; set; }
         public string Phone { get; set; }
+        public IFormFile Avatar { get; set; }
         public string Role { get; set; }
     }
 }

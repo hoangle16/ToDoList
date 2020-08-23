@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -86,6 +87,7 @@ namespace ToDo.API.Controllers
                 UserName = user.UserName,
                 Email = user.Email,
                 Phone = user.Phone,
+                AvatarPath = user.AvatarPath,
                 Role = user.Role,
                 IsVerified = user.IsVerified,
                 Created = user.Created,
@@ -101,10 +103,31 @@ namespace ToDo.API.Controllers
         /// <returns>Notification string</returns>
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]RegisterModel model)
+        public IActionResult Register([FromForm]RegisterModel model)
         {
             var user = _mapper.Map<User>(model);
+            //avatar
+            string filePath = "wwwroot\\avatars\\defaultAvatar.png";
+            var avatar = model.Avatar;
+            if(avatar != null)
+            {
+                if(avatar.Length > 0)
+                {
+                    var supportedTypes = new[] { ".jpg", ".png", ".bmp", ".gif", ".jpeg", "webp" };
+                    var avatarExt = Path.GetExtension(avatar.FileName).ToLower();
+                    if (!supportedTypes.Contains(avatarExt))
+                        throw new AppException("File Extension Is InValid - Only Upload jpg/png/bmp/gif/jpeg/webp File");
 
+                    Directory.CreateDirectory("wwwroot/avatars");
+                    string fileName = user.UserName + "_avatar" + avatarExt;
+                    filePath = Path.Combine("wwwroot/avatars", fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        avatar.CopyTo(fileStream);
+                    }
+                    user.AvatarPath = filePath;
+                }
+            }
             try
             {
                 _userService.Create(user, model.Password, Request.Headers["origin"]);
@@ -192,7 +215,7 @@ namespace ToDo.API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UpdateModel model)
+        public IActionResult Update(int id, [FromForm]UpdateModel model)
         {
             var user = _mapper.Map<User>(model);
             user.UserId = id;
@@ -201,6 +224,28 @@ namespace ToDo.API.Controllers
             if (id != currentUserId && !User.IsInRole(Role.Admin))
                 return Forbid();
 
+            //update avatar if provied
+            var avatar = model.Avatar;
+            //saving image on server
+            if (avatar != null)
+            {
+                if (avatar.Length > 0)
+                {
+                    var supportedTypes = new[] { ".jpg", ".png", ".bmp", ".gif", ".jpeg", "webp" };
+                    var avatarExt = Path.GetExtension(avatar.FileName).ToLower();
+                    if (!supportedTypes.Contains(avatarExt))
+                        throw new AppException("File Extension Is InValid - Only Upload jpg/png/bmp/gif/jpeg/webp File");
+
+                    Directory.CreateDirectory("wwwroot/avatars");
+                    string fileName = user.UserId + "_avatar" + avatarExt;
+                    string filePath = Path.Combine("wwwroot/avatars", fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        avatar.CopyTo(fileStream);
+                    }
+                    user.AvatarPath = filePath;
+                }
+            }
             try
             {
                 _userService.Update(user, model.Password);

@@ -19,6 +19,7 @@ namespace ToDo.Domain.Entities
         public bool IsVerified { get; set; }
         public string ResetToken { get; set; }
         public DateTime? ResetTokenExpires { get; set; }
+        public string AvatarPath { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public virtual ICollection<ToDoItem> TodoItems { get; set; }

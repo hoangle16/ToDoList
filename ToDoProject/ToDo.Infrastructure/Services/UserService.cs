@@ -136,6 +136,9 @@ namespace ToDo.Infrastructure.Services
                 user.Phone = userParams.Phone;
             if (!string.IsNullOrWhiteSpace(userParams.Role))
                 user.Role = userParams.Role;
+            //update avatar
+            if (!string.IsNullOrWhiteSpace(userParams.AvatarPath))
+                user.AvatarPath = userParams.AvatarPath;
 
             //update password if provided
             if (!string.IsNullOrWhiteSpace(password))
